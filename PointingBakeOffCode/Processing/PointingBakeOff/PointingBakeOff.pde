@@ -58,6 +58,7 @@ void draw()
 
   if (trialNum >= trials.size()) //check to see if test is over
   {
+    
     float timeTaken = (finishTime-startTime) / 1000f;
     float penalty = constrain(((95f-((float)hits*100f/(float)(hits+misses)))*.2f),0,100);
     fill(255); //set fill color to white
@@ -74,6 +75,58 @@ void draw()
 
   fill(255); //set fill color to white
   text((trialNum + 1) + " of " + trials.size(), 40, 20); //display what trial the user is o
+  int current = trials.get(trialNum);
+  String toPress = "";
+  if (current == 0) {
+     toPress += "1";
+  } 
+  else if (current == 1) {
+     toPress += "2";
+  }
+  else if (current == 2) {
+     toPress += "3";
+  }
+    else if (current == 3) {
+     toPress += "4";
+  }
+  else if (current == 4) {
+     toPress += "q";
+  }
+  else if (current == 5) {
+     toPress += "w";
+  }
+  else if (current == 6) {
+     toPress += "e";
+  }
+  else if (current == 7) {
+     toPress += "r";
+  }
+ else if (current == 8) {
+     toPress += "a";
+  }
+  else if (current == 9) {
+     toPress += "s";
+  }
+  else if (current == 10) {
+     toPress += "d";
+  }
+  else if (current == 11) {
+     toPress += "f";
+  }
+  else if (current == 12) {
+     toPress += "z";
+  }
+  else if (current == 13) {
+     toPress += "x";
+  }
+  else if (current == 14) {
+     toPress += "c";
+  }
+  else if (current == 15) {
+     toPress += "v";
+  }
+   
+  text("TYPE THIS: " + toPress, width/2, 180);
   for (int i = 0; i < 16; i++)// for all button
     drawButton(i); //draw button
 
@@ -102,6 +155,7 @@ void mousePressed() // test to see if hit was in target!
   if ((mouseX > bounds.x && mouseX < bounds.x + bounds.width) && (mouseY > bounds.y && mouseY < bounds.y + bounds.height)) // test to see if hit was within bounds
   {
     System.out.println("HIT! " + trialNum + " " + (millis() - startTime)); // success
+
     hits++; 
   } 
   else
@@ -143,6 +197,8 @@ void drawButton(int i)
     fill(200, 50); // if not, fill gray
 
   rect(bounds.x, bounds.y, bounds.width, bounds.height); //draw button
+
+  
 }
 
 void mouseMoved()
@@ -163,17 +219,52 @@ void keyPressed()
   //https://processing.org/reference/keyTyped_.html
   //https://processing.org/reference/keyCode.html
   
-    if (key == CODED) {
-      if (keyCode == UP) {
-        robot.mouseMove((width/2) + 15, (height/2)- (buttonSize * 2 + padding) + 40);
-      } else if (keyCode == DOWN) {
-        robot.mouseMove((width/2) + 15, (height/2) + (buttonSize * 2 + padding) + 55);
+      if (key == '1') {
+        robot.mouseMove(200 + buttonSize/2, 200 + buttonSize);
+      } else if (key == '2') {
+        robot.mouseMove(290  + buttonSize/2, 200  + buttonSize);
       } 
-      else if (keyCode == RIGHT) {
-      robot.mouseMove((width/2) + (buttonSize * 2 + padding) + 28, (height/2) + 40); 
+      else if (key == '3') {
+      robot.mouseMove(380+ buttonSize/2, 200+ buttonSize); 
       }
-      else if (keyCode == LEFT) {
-        robot.mouseMove((width/2) - (buttonSize * 2 + padding), (height/2) + 40);
+      else if (key == '4') {
+        robot.mouseMove(470+ buttonSize/2, 200+ buttonSize);
       }
-    }
+      else if (key == 'q' || key == 'Q') {
+        robot.mouseMove(200+ buttonSize/2, 290+ buttonSize);
+      }
+      else if (key == 'w' || key == 'W') {
+        robot.mouseMove(290+ buttonSize/2, 290+ buttonSize);
+      }
+      else if (key == 'e' || key == 'E') {
+        robot.mouseMove(380+ buttonSize/2, 290+ buttonSize);
+      }
+      else if (key == 'r' || key == 'R') {
+        robot.mouseMove(470+ buttonSize/2, 290+ buttonSize);
+      }
+      else if (key == 'a' || key == 'A') {
+        robot.mouseMove(200+ buttonSize/2, 380+ buttonSize);
+      }
+      else if (key == 's' || key == 'S') {
+        robot.mouseMove(290+ buttonSize/2, 380+ buttonSize);
+      }
+      else if (key == 'd' || key == 'D') {
+        robot.mouseMove(380+ buttonSize/2, 380+ buttonSize);
+      }
+      else if (key == 'f' || key == 'F') {
+        robot.mouseMove(470+ buttonSize/2, 380+ buttonSize);
+      }
+      else if (key == 'z' || key == 'Z') {
+        robot.mouseMove(200+ buttonSize/2, 470+ buttonSize);
+      }
+      else if (key == 'x' || key == 'X') {
+        robot.mouseMove(290+ buttonSize/2, 470+ buttonSize);
+      }
+      else if (key == 'c' || key == 'C') {
+        robot.mouseMove(380+ buttonSize/2, 470+ buttonSize);
+      }
+      else if (key == 'v' || key == 'V') {
+        robot.mouseMove(470+ buttonSize/2, 470+ buttonSize);
+      }
+    
 }
