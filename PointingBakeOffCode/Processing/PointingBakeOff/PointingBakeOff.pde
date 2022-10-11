@@ -20,6 +20,8 @@ Robot robot; //initialized in setup
 
 int numRepeats = 1; //sets the number of times each button repeats in the test
 
+boolean isHint = true;
+
 void setup()
 {
   size(700, 700); // set the size of the window
@@ -75,61 +77,10 @@ void draw()
 
   fill(255); //set fill color to white
   text((trialNum + 1) + " of " + trials.size(), 40, 20); //display what trial the user is o
-  int current = trials.get(trialNum);
-  String toPress = "";
-  if (current == 0) {
-     toPress += "1";
-  } 
-  else if (current == 1) {
-     toPress += "2";
-  }
-  else if (current == 2) {
-     toPress += "3";
-  }
-    else if (current == 3) {
-     toPress += "4";
-  }
-  else if (current == 4) {
-     toPress += "q";
-  }
-  else if (current == 5) {
-     toPress += "w";
-  }
-  else if (current == 6) {
-     toPress += "e";
-  }
-  else if (current == 7) {
-     toPress += "r";
-  }
- else if (current == 8) {
-     toPress += "a";
-  }
-  else if (current == 9) {
-     toPress += "s";
-  }
-  else if (current == 10) {
-     toPress += "d";
-  }
-  else if (current == 11) {
-     toPress += "f";
-  }
-  else if (current == 12) {
-     toPress += "z";
-  }
-  else if (current == 13) {
-     toPress += "x";
-  }
-  else if (current == 14) {
-     toPress += "c";
-  }
-  else if (current == 15) {
-     toPress += "v";
-  }
-   
-  text("TYPE THIS: " + toPress, width/2, 180);
+
   for (int i = 0; i < 16; i++)// for all button
     drawButton(i); //draw button
-
+   
   fill(255, 0, 0, 200); // set fill color to translucent red
   ellipse(mouseX, mouseY, 20, 20); //draw user cursor as a circle with a diameter of 20
 }
@@ -165,16 +116,6 @@ void mousePressed() // test to see if hit was in target!
   }
 
   trialNum++; //Increment trial number
-
-  //in this example code, we move the mouse back to the middle
-  //right
-  //
-  //on click, move cursor to roughly center of window!
-  //left
-  //
-  //top
-  //
-  //bottom
   
 }  
 
@@ -186,19 +127,40 @@ Rectangle getButtonLocation(int i) //for a given button ID, what is its location
    return new Rectangle(x, y, buttonSize, buttonSize);
 }
 
+int getButtonLocationCoordX(int i) //for a given button ID, what is its location and size
+{
+   int x = (i % 4) * (padding + buttonSize) + margin;
+   return x;
+}
+
+int getButtonLocationCoordY(int i) //for a given button ID, what is its location and size
+{
+   int y = (i / 4) * (padding + buttonSize) + margin;
+   return y;
+}
+
 //you can edit this method to change how buttons appear
 void drawButton(int i)
 {
   Rectangle bounds = getButtonLocation(i);
 
   if (trials.get(trialNum) == i) // see if current button is the target
-    fill(0, 255, 255); // if so, fill cyan
-  else
+    {
+      fill(0, 255, 255); // if so, fill cyan
+      rect(bounds.x, bounds.y, bounds.width, bounds.height); //draw button
+    }
+  else if ((trialNum + 1 < trials.size()) && (trials.get(trialNum + 1) == i)) {
+      fill(255, 70);
+      rect(bounds.x, bounds.y, bounds.width, bounds.height); //draw button
+    textSize(30);
+    fill(255, 255, 0);
+    text("-->",  getButtonLocationCoordX(trials.get(trialNum+1))-20,  getButtonLocationCoordY(trials.get(trialNum+1))+25);
+  }
+  else {
     fill(200, 50); // if not, fill gray
-
-  rect(bounds.x, bounds.y, bounds.width, bounds.height); //draw button
-
-  
+    rect(bounds.x, bounds.y, bounds.width, bounds.height); //draw button
+  }
+    
 }
 
 void mouseMoved()
@@ -218,53 +180,5 @@ void keyPressed()
   //can use the keyboard if you wish
   //https://processing.org/reference/keyTyped_.html
   //https://processing.org/reference/keyCode.html
-  
-      if (key == '1') {
-        robot.mouseMove(200 + buttonSize/2, 200 + buttonSize);
-      } else if (key == '2') {
-        robot.mouseMove(290  + buttonSize/2, 200  + buttonSize);
-      } 
-      else if (key == '3') {
-      robot.mouseMove(380+ buttonSize/2, 200+ buttonSize); 
-      }
-      else if (key == '4') {
-        robot.mouseMove(470+ buttonSize/2, 200+ buttonSize);
-      }
-      else if (key == 'q' || key == 'Q') {
-        robot.mouseMove(200+ buttonSize/2, 290+ buttonSize);
-      }
-      else if (key == 'w' || key == 'W') {
-        robot.mouseMove(290+ buttonSize/2, 290+ buttonSize);
-      }
-      else if (key == 'e' || key == 'E') {
-        robot.mouseMove(380+ buttonSize/2, 290+ buttonSize);
-      }
-      else if (key == 'r' || key == 'R') {
-        robot.mouseMove(470+ buttonSize/2, 290+ buttonSize);
-      }
-      else if (key == 'a' || key == 'A') {
-        robot.mouseMove(200+ buttonSize/2, 380+ buttonSize);
-      }
-      else if (key == 's' || key == 'S') {
-        robot.mouseMove(290+ buttonSize/2, 380+ buttonSize);
-      }
-      else if (key == 'd' || key == 'D') {
-        robot.mouseMove(380+ buttonSize/2, 380+ buttonSize);
-      }
-      else if (key == 'f' || key == 'F') {
-        robot.mouseMove(470+ buttonSize/2, 380+ buttonSize);
-      }
-      else if (key == 'z' || key == 'Z') {
-        robot.mouseMove(200+ buttonSize/2, 470+ buttonSize);
-      }
-      else if (key == 'x' || key == 'X') {
-        robot.mouseMove(290+ buttonSize/2, 470+ buttonSize);
-      }
-      else if (key == 'c' || key == 'C') {
-        robot.mouseMove(380+ buttonSize/2, 470+ buttonSize);
-      }
-      else if (key == 'v' || key == 'V') {
-        robot.mouseMove(470+ buttonSize/2, 470+ buttonSize);
-      }
     
 }
