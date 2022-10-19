@@ -18,7 +18,7 @@ int hits = 0; //number of successful clicks
 int misses = 0; //number of missed clicks
 Robot robot; //initialized in setup 
 
-int numRepeats = 1; //sets the number of times each button repeats in the test
+int numRepeats = 20; //sets the number of times each button repeats in the test
 
 boolean isHint = true;
 
@@ -83,6 +83,8 @@ void draw()
    
   fill(255, 0, 0, 200); // set fill color to translucent red
   ellipse(mouseX, mouseY, 20, 20); //draw user cursor as a circle with a diameter of 20
+  
+  System.out.printf("%d,%d,%d,%d", trialNum, 1, mouseX, mouseY);
 }
 
 void mousePressed() // test to see if hit was in target!
