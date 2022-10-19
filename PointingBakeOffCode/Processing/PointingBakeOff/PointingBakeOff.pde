@@ -17,6 +17,11 @@ int finishTime = 0; //records the time of the final click
 int hits = 0; //number of successful clicks
 int misses = 0; //number of missed clicks
 Robot robot; //initialized in setup 
+boolean hasNotPrinted = true;
+int buttonStart = 0;
+int buttonEnd = 0;
+int mouseStartX = 0;
+int mouseStartY = 0;
 
 int numRepeats = 20; //sets the number of times each button repeats in the test
 
@@ -48,7 +53,6 @@ void setup()
       trials.add(i);
 
   Collections.shuffle(trials); // randomize the order of the buttons
-  System.out.println("trial order: " + trials);
   
   surface.setLocation(0,0);// put window in top left corner of screen (doesn't always work)
 }
@@ -83,8 +87,13 @@ void draw()
    
   fill(255, 0, 0, 200); // set fill color to translucent red
   ellipse(mouseX, mouseY, 20, 20); //draw user cursor as a circle with a diameter of 20
-  
-  System.out.printf("%d,%d,%d,%d", trialNum, 1, mouseX, mouseY);
+  if (hasNotPrinted) {
+    //System.out.printf("%d,%d,%d,%d,%d,%d,%d,%d,%d\n", trialNum, 1, mouseX, mouseY, getButtonLocationCoordX(trials.get(trialNum)), getButtonLocationCoordY(trials.get(trialNum)), 40, );
+    mouseStartX = mouseX;
+    mouseStartY = mouseY;
+    buttonStart = millis();
+    hasNotPrinted = false;
+  }
 }
 
 void mousePressed() // test to see if hit was in target!
@@ -105,20 +114,27 @@ void mousePressed() // test to see if hit was in target!
   Rectangle bounds = getButtonLocation(trials.get(trialNum));
 
  //check to see if mouse cursor is inside button 
+  int didHit = 0;
   if ((mouseX > bounds.x && mouseX < bounds.x + bounds.width) && (mouseY > bounds.y && mouseY < bounds.y + bounds.height)) // test to see if hit was within bounds
   {
-    System.out.println("HIT! " + trialNum + " " + (millis() - startTime)); // success
-
+    didHit = 1;
     hits++; 
   } 
   else
   {
-    System.out.println("MISSED! " + trialNum + " " + (millis() - startTime)); // fail
     misses++;
   }
 
   trialNum++; //Increment trial number
+  hasNotPrinted = true;
+  buttonEnd = millis();
   
+  float totalTime = (buttonEnd-buttonStart) / 1000f;
+  
+  System.out.printf("%d,%d,%d,%d,%d,%d,%d,%f,%d\n", trialNum, 1, mouseStartX, mouseStartY, 
+  bounds.x + 20, bounds.y + 20, 40, totalTime, didHit);
+
+
 }  
 
 //probably shouldn't have to edit this method
